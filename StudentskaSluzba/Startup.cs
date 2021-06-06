@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,7 @@ using StudentskaSluzba.DAL;
 using StudentskaSluzba.Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,12 +34,11 @@ namespace StudentskaSluzba
                                 Configuration.GetConnectionString("StudentManagerDbContext"),
                                 opt => opt.MigrationsAssembly("StudentskaSluzba.DAL")));
 
-            services.AddIdentity<AppUser, IdentityRole>()
+            services.AddIdentity<AppUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoleManager<RoleManager<IdentityRole>>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<StudentManagerDbContext>();
-
 
             services.AddControllersWithViews();
 
@@ -73,8 +74,29 @@ namespace StudentskaSluzba
             app.UseAuthentication();
             app.UseAuthorization();
 
+            var supportedCultures = new[]
+            {
+                new CultureInfo("hr"), new CultureInfo("en-US")
+            };
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("hr"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "pocetna",
+                    pattern: "pocetna",
+                    defaults: new { controller = "Home", action = "Index" });
+
+                endpoints.MapControllerRoute(
+                    name: "o-aplikaciji",
+                    pattern: "o-aplikaciji",
+                    defaults: new { controller = "Home", action = "Instructions" });
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

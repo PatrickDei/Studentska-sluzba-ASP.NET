@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentskaSluzba.DAL;
 
 namespace StudentskaSluzba.DAL.Migrations
 {
     [DbContext(typeof(StudentManagerDbContext))]
-    partial class StudentManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210606164247_StudentCourse")]
+    partial class StudentCourse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -328,8 +330,6 @@ namespace StudentskaSluzba.DAL.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ClassId");
-
                     b.ToTable("News");
                 });
 
@@ -470,17 +470,6 @@ namespace StudentskaSluzba.DAL.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("StudentskaSluzba.Model.News", b =>
-                {
-                    b.HasOne("StudentskaSluzba.Model.Class", "Class")
-                        .WithMany()
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Class");
                 });
 
             modelBuilder.Entity("StudentskaSluzba.Model.Student", b =>

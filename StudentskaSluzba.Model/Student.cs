@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,5 +35,10 @@ namespace StudentskaSluzba.Model
         public string JMBAG { get; set; }
 
         public virtual ICollection<Class> Classes { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(Course))]
+        public int CourseID { get; set; }
+        public Course Course { get; set; }
     }
 }

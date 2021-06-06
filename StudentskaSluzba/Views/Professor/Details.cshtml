@@ -1,0 +1,54 @@
+﻿@using StudentskaSluzba.Model
+@model Professor
+
+@{
+    ViewData["Title"] = "Detalji profesora";
+}
+
+@if (Model != null)
+{
+    <ol class="breadcrumb">
+        <li><a asp-action="Index">Popis profesora</a></li>
+        <li class="active"> / @Model.FirstName</li>
+    </ol>
+
+    <div>
+        <h4>Profesor</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Ime i prezime
+            </dt>
+            <dd>
+                @Model.FirstName @Model.LastName
+            </dd>
+            <dt>
+                Datum rođenja
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateOfBirth)
+            </dd>
+            <dt>
+                Predmeti
+            </dt>
+            <dd>
+                @foreach (var c in Model.Classes)
+                {
+                    @c.Name;<br />
+                }
+            </dd>
+        </dl>
+
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-primary">Uredi</a>
+        </div>
+    </div>
+
+}
+else
+{
+    <div class="alert alert-danger">
+        Nije odabran ispravni ID studenta.
+    </div>
+
+}

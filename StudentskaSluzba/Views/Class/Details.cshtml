@@ -1,0 +1,47 @@
+﻿@using StudentskaSluzba.Model
+@model Class
+
+@{
+    ViewData["Title"] = "Detalji predmeta";
+}
+
+@if (Model != null)
+{
+    <ol class="breadcrumb">
+        <li><a asp-action="Index">Popis predmeta</a></li>
+        <li class="active"> / @Model.Name</li>
+    </ol>
+
+    <div>
+        <h4>@Model.Name</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Profesori
+            </dt>
+            <dd>
+                @foreach (var c in Model.Professors)
+                {
+                    @c.FirstName;  @c.LastName<br />
+                }
+            </dd>
+            <dt>
+                Studenti
+            </dt>
+            <dd>
+                @foreach (var c in Model.Students)
+                {
+                    @c.FirstName;  @c.LastName<br />
+                }
+            </dd>
+        </dl>
+    </div>
+
+}
+else
+{
+    <div class="alert alert-danger">
+        Nije odabran ispravni ID Predmeta.
+    </div>
+
+}

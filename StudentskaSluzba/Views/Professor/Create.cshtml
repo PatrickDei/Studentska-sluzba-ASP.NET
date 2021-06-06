@@ -1,0 +1,13 @@
+﻿@model StudentskaSluzba.Model.Professor
+
+@{
+    ViewData["Title"] = "Dodavanje profesora";
+}
+
+<div class="row">
+    <div class="col-6">
+        <form asp-action="Create" method="post">
+            <partial name="_CreateOrEdit" />
+        </form>
+    </div>
+</div>

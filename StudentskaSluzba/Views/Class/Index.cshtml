@@ -1,0 +1,20 @@
+﻿@using StudentskaSluzba.Model
+@model List<Class>
+
+@{ 
+    ViewData["Title"] = "Popis predmeta";
+}
+
+<partial name="_ClassFilter" />
+
+@foreach (var n in Model)
+{
+    <a asp-action="Details" asp-route-id="@n.ID">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@n.Name</h5>
+                <p class="card-text">@n.Course.Name</p>
+            </div>
+        </div>
+    </a>
+}

@@ -1,0 +1,14 @@
+﻿@model StudentskaSluzba.Model.Student
+
+@{
+    ViewData["Title"] = "Uređivanje Studenta";
+}
+
+<div class="row">
+    <div class="col-6">
+        <form asp-action="EditClasses">
+            <input type="hidden" asp-for="ID" />
+            <partial name="_CreateOrEdit" />
+        </form>
+    </div>
+</div>

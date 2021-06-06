@@ -1,0 +1,17 @@
+﻿@model StudentskaSluzba.Model.Professor
+
+@{
+    ViewData["Title"] = "Uređivanje predmeta";
+}
+
+<form asp-action="EditClassesApply" asp-route-id="@Model.ID">
+
+    @foreach (var c in ViewBag.Classes)
+    {
+        <div class="form-check">
+            <input name="classID" type="checkbox" class="form-check-input" id="@c.ID" value="@c.ID">
+            <label class="form-check-label" for="@c.ID">@c.Name</label>
+        </div>
+    }
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

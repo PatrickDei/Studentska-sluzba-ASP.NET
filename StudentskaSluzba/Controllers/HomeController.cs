@@ -23,6 +23,7 @@ namespace StudentskaSluzba.Controllers
             return View();
         }
 
+        [Route("o-aplikaciji")]
         public IActionResult Instructions()
         {
             return View();

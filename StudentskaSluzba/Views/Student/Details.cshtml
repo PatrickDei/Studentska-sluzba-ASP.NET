@@ -1,0 +1,72 @@
+﻿@using StudentskaSluzba.Model
+@model Student
+
+@{
+    ViewData["Title"] = "Detalji Studenta";
+}
+
+@if (Model != null)
+{
+    <ol class="breadcrumb">
+        <li><a asp-action="Index">Popis studenata</a></li>
+        <li class="active"> / @Model.JMBAG</li>
+    </ol>
+
+    <div>
+        <h4>Student</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                JMBAG
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.JMBAG)
+            </dd>
+            <dt>
+                Ime i prezime
+            </dt>
+            <dd>
+                @Model.FirstName @Model.LastName
+            </dd>
+            <dt>
+                Datum rođenja
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateOfBirth)
+            </dd>
+            <dt>
+                Datum upisa
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateOfEnrollment)
+            </dd>
+            <dt>
+                Smjer
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Course.Name)
+            </dd>
+            <dt>
+                Predmeti
+            </dt>
+            <dd>
+                @foreach (var c in Model.Classes)
+                {
+                    @c.Name;<br />
+                }
+            </dd>
+        </dl>
+
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-primary">Uredi</a>
+        </div>
+    </div>
+
+}
+else
+{
+    <div class="alert alert-danger">
+        Nije odabran ispravni ID studenta.
+    </div>
+
+}

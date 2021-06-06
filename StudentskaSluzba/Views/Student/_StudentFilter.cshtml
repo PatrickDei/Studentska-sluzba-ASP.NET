@@ -1,0 +1,12 @@
+﻿@using (Html.BeginForm("Index", "Student", FormMethod.Post))
+{
+    <div class="form-row">
+        <div class="col-8">
+            <input name="search" class="form-control" type="text" placeholder="Pretraga" />
+        </div>
+        <button type="submit" id="pretraga" class="btn btn-outline-info">Pretraga</button>
+    </div>
+    <div class="col-4">
+        <a asp-action="Create" class="btn btn-success">Novi</a>
+    </div>
+}

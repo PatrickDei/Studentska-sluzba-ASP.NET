@@ -25,7 +25,9 @@ namespace StudentskaSluzba.DAL
 
         public DbSet<Professor> Professors { get; set; }
 
-        //public DbSet<Client> Clients { get; set; }
+        public DbSet<News> News { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
