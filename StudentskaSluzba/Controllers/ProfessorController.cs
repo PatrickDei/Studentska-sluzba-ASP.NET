@@ -133,7 +133,9 @@ namespace StudentskaSluzba.Controllers
 
                 this._dbContext.SaveChanges();
 
-                return RedirectToAction(nameof(Index));
+                ViewBag.Classes = this._dbContext.Classes.ToList();
+
+                return View("EditClasses", professor);
             }
             else
             {

@@ -44,6 +44,28 @@ namespace StudentskaSluzba.Controllers
 
             return Ok(students);
         }
+        [Route("{id}")]
+        public IActionResult Get(int id)
+        {
+            var students = this._dbContext.Students.Include(s => s.Course).Include(s => s.Classes)
+                .Select(o => new StudentDTO()
+                {
+                    ID = o.ID,
+                    FullName = o.FirstName + " " + o.LastName,
+                    JMBAG = o.JMBAG,
+                    DateOfBirth = o.DateOfBirth,
+                    Course = new CourseDTO()
+                    {
+                        Name = o.Course.Name
+                    },
+                    Classes = o.Classes.Select(c => new ClassDTO()
+                    {
+                        Name = c.Name
+                    }).ToList()
+                }).FirstOrDefault(s => s.ID == id);
+
+            return Ok(students);
+        }
 
         [HttpPost]
         public IActionResult Post([FromBody] Student student)
