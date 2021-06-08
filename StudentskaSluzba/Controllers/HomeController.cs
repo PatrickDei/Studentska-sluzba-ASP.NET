@@ -23,9 +23,11 @@ namespace StudentskaSluzba.Controllers
             return View();
         }
 
-        [Route("o-aplikaciji")]
-        public IActionResult Instructions()
+        [Route("o-aplikaciji/{selected?}")]
+        public IActionResult Instructions(int? selected)
         {
+            ViewBag.selected = selected;
+
             return View();
         }
 

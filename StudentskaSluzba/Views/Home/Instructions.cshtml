@@ -1,8 +1,9 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Upute";
 }
+
 <h1>@ViewData["Title"]</h1>
 
-<p>Uloga profesora može mijenjati podatke o studentima te dodavati novosti</p>
-<p>Uloga managera može mijenjati podatke o profesorima</p>
-<p>Uloga admina može brisati entitete i dodavati predmete</p>
+<p style="font-weight: @(ViewBag.selected == 1 ? "bold" : "normal")">Uloga profesora može mijenjati podatke o studentima te dodavati novosti</p>
+<p style="font-weight: @(ViewBag.selected == 2 ? "bold" : "normal")">Uloga managera može mijenjati podatke o profesorima</p>
+<p style="font-weight: @(ViewBag.selected == 3 ? "bold" : "normal")">Uloga admina može brisati entitete i dodavati predmete</p>

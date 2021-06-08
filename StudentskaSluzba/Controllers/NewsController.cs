@@ -15,18 +15,43 @@ namespace StudentskaSluzba.Controllers
     {
         private StudentManagerDbContext _dbContext;
         private UserManager<AppUser> _userManager;
+        private RoleManager<IdentityRole> _roleManager;
 
-        public NewsController(StudentManagerDbContext dbContext, UserManager<AppUser> userManager)
+        public NewsController(StudentManagerDbContext dbContext, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             this._dbContext = dbContext;
             this._userManager = userManager;
+            this._roleManager = roleManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(bool? ajaxCall)
         {
-            var newsQuery = this._dbContext.News.Where(n => n.EndDate >= DateTime.Now && n.StartDate <= DateTime.Now).Include(n => n.Class).AsQueryable();
+            IdentityRole roles = null;
+            IQueryable<News> newsQuery;
+            var userId = this._userManager.GetUserId(base.User);
+
+            if (userId != null)
+            {
+                var idOfrole = this._dbContext.UserRoles
+                    .Where(u => u.UserId == userId)
+                    .Select(u => u.RoleId)
+                    .First()
+                    .ToString();
+                roles = await this._roleManager.FindByIdAsync(idOfrole);
+            }
+
+            if(roles != null)
+                ViewBag.Manager = roles.Name;
+
+            if (roles != null && roles.Name.Equals("Admin"))
+                newsQuery = this._dbContext.News.Include(n => n.Class).AsQueryable();
+            else
+                newsQuery = this._dbContext.News.Where(n => n.EndDate.Date >= DateTime.Now.Date && n.StartDate.Date <= DateTime.Now.Date).Include(n => n.Class).AsQueryable();
 
             var model = newsQuery.ToList();
+
+            if (ajaxCall != null)
+                return PartialView("_IndexTable", model);
 
             return View(model: model);
         }
@@ -50,6 +75,20 @@ namespace StudentskaSluzba.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            var news = this._dbContext.News.First(n => n.ID == id);
+
+            this._dbContext.News.Remove(news);
+
+            this._dbContext.SaveChanges();
+
+            var model = this._dbContext.News.Include(n => n.Class).ToList();
+
+            return RedirectToAction("Index", new { ajaxCall = true});
         }
 
         private void FillDropdownValues()

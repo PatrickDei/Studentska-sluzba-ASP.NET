@@ -1,20 +1,45 @@
 ﻿@using StudentskaSluzba.Model
 @model List<News>
 
-@{ 
+@{
     ViewData["Title"] = "Popis Novosti";
 }
 
 <div class="col-4">
     <a asp-action="Create" class="btn btn-success">Novi</a>
 </div>
+<br />
 
-@foreach (var n in Model)
-{
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">@n.Title - @n.Class.Name</h5>
-            <p class="card-text">@n.Message</p>
+<div id="tablica">
+    @foreach (var n in Model)
+    {
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@n.Title - @n.Class.Name</h5>
+                <p class="card-text">@n.Message</p>
+                @if (ViewBag.Manager != null && (ViewBag.Manager == "Admin" || ViewBag.Manager == "Manager"))
+                {
+                    <button type="button" name="delButton" value="@n.ID" class="btn btn-danger delButton">Obriši obavijest</button>
+                }
+            </div>
         </div>
-    </div>
+    }
+</div>
+
+
+@section Scripts{
+    <script>
+        $(".delButton").click(function () {
+        var formData = $(this).val();
+
+        $.ajax({
+            url: '@Url.Action("Delete", "News")',
+            method: "DELETE",
+            data: 'id=' + formData,
+            success: function (html) {
+                $("#tablica").html(html);
+            }
+        })
+    });
+    </script>
 }

@@ -1,0 +1,26 @@
+﻿@using StudentskaSluzba.Model
+@model List<Student>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Student</th>
+            <th scope="col">JMBAG</th>
+            <th scope="col">Course</th>
+            <th scope="col">Year of enrollment</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td><a asp-action="Details" asp-route-id="@s.ID">@s.FirstName @s.LastName</a></td>
+                <td>@s.JMBAG</td>
+                <td>@s.Course.Name</td>
+                <td>@s.DateOfEnrollment.Year</td>
+            </tr>
+        }
+
+    </tbody>
+</table>

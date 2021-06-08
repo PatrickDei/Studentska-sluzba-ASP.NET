@@ -127,11 +127,18 @@ namespace StudentskaSluzba.Controllers
         [HttpPost]
         public IActionResult Create(Professor professor)
         {
-            this._dbContext.Professors.Add(professor);
+            if (ModelState.IsValid)
+            {
+                this._dbContext.Professors.Add(professor);
 
-            this._dbContext.SaveChanges();
+                this._dbContext.SaveChanges();
 
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return View();
+            }
         }
     }
 }

@@ -42,7 +42,7 @@ namespace StudentskaSluzba
 
             services.AddControllersWithViews();
 
-            /*services.AddAuthentication()
+            services.AddAuthentication()
                 .AddGoogle(options =>
                 {
                     IConfigurationSection googleAuthNSection =
@@ -50,7 +50,7 @@ namespace StudentskaSluzba
 
                     options.ClientId = googleAuthNSection["ClientId"];
                     options.ClientSecret = googleAuthNSection["ClientSecret"];
-                });*/
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

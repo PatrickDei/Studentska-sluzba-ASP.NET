@@ -22,7 +22,7 @@
             <dd>
                 @foreach (var c in Model.Professors)
                 {
-                    @c.FirstName;  @c.LastName<br />
+                    @(c.FirstName + " " + c.LastName)<br />
                 }
             </dd>
             <dt>
@@ -31,7 +31,7 @@
             <dd>
                 @foreach (var c in Model.Students)
                 {
-                    @c.FirstName;  @c.LastName<br />
+                    @(c.FirstName + " " + c.LastName)<br />
                 }
             </dd>
         </dl>

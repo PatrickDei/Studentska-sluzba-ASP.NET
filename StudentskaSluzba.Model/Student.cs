@@ -40,5 +40,16 @@ namespace StudentskaSluzba.Model
         [ForeignKey(nameof(Course))]
         public int CourseID { get; set; }
         public Course Course { get; set; }
+
+        public void TryUpdateStudent(Student s)
+        {
+            this.JMBAG = s.JMBAG ?? this.JMBAG;
+            this.FirstName = s.FirstName ?? this.FirstName;
+            this.LastName = s.LastName ?? this.LastName;
+            this.DateOfBirth = s.DateOfBirth ;
+            this.DateOfEnrollment = s.DateOfEnrollment;
+            this.CourseID = (s.CourseID != 0) ? this.CourseID : s.CourseID;
+            this.Classes = s.Classes;
+        }
     }
 }

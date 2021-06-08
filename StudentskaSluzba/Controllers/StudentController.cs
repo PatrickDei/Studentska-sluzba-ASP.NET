@@ -56,6 +56,24 @@ namespace StudentskaSluzba.Controllers
             return View(model: model);
         }
 
+        [HttpPost]
+        public IActionResult IndexAjax(string search)
+        {
+            var studentQuery = this._dbContext.Students.Include(p => p.Course).AsQueryable();
+
+            search = search ?? "";
+
+            if (!string.IsNullOrWhiteSpace(search))
+                studentQuery = studentQuery.Where(s => s.FirstName.ToLower().Contains(search.ToLower())
+                            || s.LastName.ToLower().Contains(search.ToLower())
+                            || s.JMBAG.ToLower().Contains(search.ToLower())
+                            || s.Course.Name.ToLower().Contains(search.ToLower())
+                            || s.DateOfEnrollment.Year.ToString().Contains(search.ToLower()));
+
+            var model = studentQuery.ToList();
+            return PartialView("_IndexTable", model);
+        }
+
         public IActionResult Details(int id)
         {
             var student = this._dbContext.Students.Where(s => s.ID == id).Include(s => s.Course).Include(s => s.Classes).First();
@@ -140,11 +158,19 @@ namespace StudentskaSluzba.Controllers
         [HttpPost]
         public IActionResult Create(Student student)
         {
-            this._dbContext.Students.Add(student);
+            if (ModelState.IsValid)
+            {
+                this._dbContext.Students.Add(student);
 
-            this._dbContext.SaveChanges();
+                this._dbContext.SaveChanges();
 
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                FillDropdownValues();
+                return View();
+            }
         }
 
         private void FillDropdownValues()
