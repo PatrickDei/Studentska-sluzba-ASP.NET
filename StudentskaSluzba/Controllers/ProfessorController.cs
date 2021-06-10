@@ -82,7 +82,7 @@ namespace StudentskaSluzba.Controllers
                 {
                     this._dbContext.SaveChanges();
                     List<int> classes = professor.Classes.Select(c => c.ID).ToList();
-                    ViewBag.Classes = this._dbContext.Classes.Where(c => classes.Contains(c.ID) == false).ToList();
+                    ViewBag.Classes = this._dbContext.Classes.ToList();
                     return View(model: professor);
                 }
 
@@ -98,7 +98,7 @@ namespace StudentskaSluzba.Controllers
         [HttpPost]
         public async Task<IActionResult> EditClassesApply(int id, List<int> classID)
         {
-            var professor = this._dbContext.Professors.FirstOrDefault(s => s.ID == id);
+            var professor = this._dbContext.Professors.Include(p => p.Classes).FirstOrDefault(s => s.ID == id);
 
             ICollection<Class> classes = new Collection<Class>();
 

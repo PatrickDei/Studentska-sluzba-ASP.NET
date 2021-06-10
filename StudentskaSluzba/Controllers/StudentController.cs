@@ -107,7 +107,7 @@ namespace StudentskaSluzba.Controllers
                 {
                     this._dbContext.SaveChanges();
                     List<int> classes = student.Classes.Select(c => c.ID).ToList();
-                    ViewBag.Classes = this._dbContext.Classes.Where(c => classes.Contains(c.ID) == false).ToList();
+                    ViewBag.Classes = this._dbContext.Classes.ToList();
                     return View(model: student);
                 }
 
@@ -125,7 +125,7 @@ namespace StudentskaSluzba.Controllers
         [HttpPost]
         public async Task<IActionResult> EditClassesApply(int id,  List<int> classID)
         {
-            var student = this._dbContext.Students.FirstOrDefault(s => s.ID == id);
+            var student = this._dbContext.Students.Include(s => s.Classes).FirstOrDefault(s => s.ID == id);
 
             ICollection<Class> classes = new Collection<Class>();
 

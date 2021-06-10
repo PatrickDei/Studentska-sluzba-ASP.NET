@@ -80,6 +80,8 @@ namespace StudentskaSluzba.Controllers
             var classQuery = this._dbContext.Classes.Where(c => c.ID == id)
                 .Include(c => c.Professors).Include(c => c.Students).FirstOrDefault();
 
+            ViewBag.News = this._dbContext.News.Where(n => n.ClassId == id).ToList();
+
             return View(model: classQuery);
         }
 

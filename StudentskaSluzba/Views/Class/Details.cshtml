@@ -34,6 +34,20 @@
                     @(c.FirstName + " " + c.LastName)<br />
                 }
             </dd>
+            <dt>
+                Obavijesti
+            </dt>
+            <dd>
+                @foreach (var n in ViewBag.News)
+                {
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@n.Title - @n.Class.Name</h5>
+                        <p class="card-text">@n.Message</p>
+                    </div>
+                </div>
+                }
+            </dd>
         </dl>
     </div>
 

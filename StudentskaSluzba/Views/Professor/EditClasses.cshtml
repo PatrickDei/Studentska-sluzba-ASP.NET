@@ -9,7 +9,7 @@
     @foreach (var c in ViewBag.Classes)
     {
         <div class="form-check">
-            <input name="classID" type="checkbox" class="form-check-input" id="@c.ID" value="@c.ID">
+            <input name="classID" type="checkbox" class="form-check-input" id="@c.ID" value="@c.ID" @(Model.Classes.Contains(c) ? "checked='checked'" : "");>
             <label class="form-check-label" for="@c.ID">@c.Name</label>
         </div>
     }
